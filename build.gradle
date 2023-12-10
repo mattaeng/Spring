@@ -34,6 +34,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+  //Swagger
+  implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
+  //p6spy
+  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
   //QueryDsl
   implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
   implementation "com.querydsl:querydsl-core:5.0.0"

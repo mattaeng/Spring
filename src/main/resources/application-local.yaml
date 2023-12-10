@@ -16,12 +16,12 @@ spring:
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
 
-  data:
-    mongodb:
-      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:27017/dog?authSource=admin
-    redis:
-      host: localhost
-      port: 6379
+#  data:
+#    mongodb:
+#      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:27017/dog?authSource=admin
+#    redis:
+#      host: localhost
+#      port: 6379
 
 decorator:
   datasource:

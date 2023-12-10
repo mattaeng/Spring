@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+  id 'jacoco'
 	id 'org.springframework.boot' version '3.0.12'
 	id 'io.spring.dependency-management' version '1.1.3'
 }
@@ -9,6 +10,10 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+jacoco {
+  toolVersion = '0.8.8'
 }
 
 configurations {
@@ -38,4 +43,58 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+  finalizedBy 'jacocoTestReport'
+}
+
+jacocoTestReport {
+  reports {
+    html.required = true
+    xml.required = true
+    csv.required = false
+  }
+  def qTypes = []
+  for(qPattern in "**/entity/QA" .. "**/entity/QZ"){
+    qTypes.add(qPattern + "*")
+  }
+
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it,
+          exclude: ["**/*Application"] + qTypes)
+    }))    }
+  finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+  def qTypes = []
+  for (qPattern in '*.entity.QA'..'*.entity.QZ') {
+    qTypes.add(qPattern + '*')
+  }
+  violationRules {
+    rule {
+      enabled = true
+      element = 'CLASS'
+      // includes = []
+      
+      limit {
+        counter = 'LINE'
+        value = 'COVEREDRATIO'
+        minimum = 0.8
+      }
+
+      limit {
+        counter = 'BRANCH'
+        value = 'COVEREDRATIO'
+        minimum = 0.8
+      }
+
+      limit {
+        counter = 'LINE'
+        value = 'TOTALCOUNT'
+        maximum = 200
+      }
+
+      excludes = ["*.*Application"] + qTypes
+    }
+  }
 }

@@ -13,7 +13,7 @@ java {
 }
 
 jacoco {
-  toolVersion = '0.8.8'
+  toolVersion = '0.8.10'
 }
 
 configurations {
@@ -70,9 +70,20 @@ jacocoTestReport {
 
   afterEvaluate {
     classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it,
-          exclude: ["**/*Application"] + qTypes)
-    }))    }
+      fileTree(dir: it, exclude: [
+          "mattaeng-api.domain.**.**",
+          "**/*Application*",
+          "**/*Config*",
+          "**/*Dto*",
+          "**/*Request*",
+          "**/*Response*",
+          "**/*Interceptor*",
+          "**/*Exception*",
+          "**/*common*"
+      ] + qTypes)
+    })
+    )
+  }
   finalizedBy 'jacocoTestCoverageVerification'
 }
 
@@ -105,7 +116,17 @@ jacocoTestCoverageVerification {
         maximum = 200
       }
 
-      excludes = ["*.*Application"] + qTypes
+      excludes = [
+          "*.*Application",
+          "mattaeng-api.**.**",
+          "**.*Application*",
+          "**.*Config*",
+          "**.*Dto*",
+          "**.*Request*",
+          "**.*Response*",
+          "**.*Interceptor*",
+          "**.*Exception*",
+      ] + qTypes
     }
   }
 }

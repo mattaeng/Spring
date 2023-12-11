@@ -1,7 +1,7 @@
-package common.excepationhandler;
+package com.mattaeng.mattaengapi.common.exceptionHandler;
 
-import common.api.Api;
-import common.error.ErrorCode;
+import com.mattaeng.mattaengapi.common.api.Api;
+import com.mattaeng.mattaengapi.common.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;

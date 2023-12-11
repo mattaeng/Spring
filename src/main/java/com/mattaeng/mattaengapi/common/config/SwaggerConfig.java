@@ -1,4 +1,4 @@
-package common.config;
+package com.mattaeng.mattaengapi.common.config;
 
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.Components;

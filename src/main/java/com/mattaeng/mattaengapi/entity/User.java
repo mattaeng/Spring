@@ -1,19 +1,28 @@
 package com.mattaeng.mattaengapi.entity;
 
+import com.mattaeng.mattaengapi.common.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
 @Builder
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NonNull
     private String userId;
+
+    @NonNull
     private String password;
+
+    @NonNull
     private String username;
+
+    @NonNull
     private String phoneNumber;
 
     public User(Long id, String userId, String password, String username, String phoneNumber) {

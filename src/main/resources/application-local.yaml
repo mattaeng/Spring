@@ -1,11 +1,12 @@
+server:
+  port: 8080
+
 spring:
+  devtools:
+    add-properties: false
   config:
     activate:
       on-profile: local
-
-  devtools:
-    restart:
-      enabled: true
 
   jpa:
     hibernate:
@@ -36,6 +37,7 @@ decorator:
       enable-logging: true
 
 jwt:
+  header: Authorization
   secret: ${JWT_SECRET_KEY}
   expiry-milliseconds-access-token: ${EXPIRY_MILLISECONDS_ACCESS_TOKEN}
 

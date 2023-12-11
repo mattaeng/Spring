@@ -1,6 +1,6 @@
 package com.mattaeng.mattaengapi.repository;
 
-import com.mattaeng.mattaengapi.domain.User;
+import com.mattaeng.mattaengapi.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

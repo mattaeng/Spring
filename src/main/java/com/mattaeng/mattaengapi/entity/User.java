@@ -1,11 +1,7 @@
-package com.mattaeng.mattaengapi.domain;
+package com.mattaeng.mattaengapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Entity
 @Getter
@@ -15,13 +11,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String userId;
-
     private String password;
-
     private String username;
-
     private String phoneNumber;
 
     public User(Long id, String userId, String password, String username, String phoneNumber) {

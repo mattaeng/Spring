@@ -1,6 +1,5 @@
 package com.mattaeng.mattaengapi.service;
 
-import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -10,12 +10,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL57Dialect
+      ddl-auto: create-drop
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        dialect: org.hibernate.dialect.MySQL57Dialect
 
 
   datasource:
@@ -35,16 +35,17 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+      log-message-format: INFO
 
 jwt:
   header: Authorization
   secret: ${JWT_SECRET_KEY}
 
 
-logging:
-  level:
-#    root: DEBUG
-    web: DEBUG
-    org:
-      springframework:
-#        security: DEBUG
+#logging:
+#  level:
+##    root: DEBUG
+#    web: DEBUG
+#    org:
+#      springframework:
+##        security: DEBUG

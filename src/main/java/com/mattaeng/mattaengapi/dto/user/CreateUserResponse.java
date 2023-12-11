@@ -8,8 +8,6 @@ import lombok.Getter;
 public class CreateUserResponse {
 
     private String userId;
-
     private String username;
-
     private String phoneNumber;
 }

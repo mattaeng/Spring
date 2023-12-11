@@ -1,6 +1,6 @@
 package com.mattaeng.mattaengapi.dto.user;
 
-import com.mattaeng.mattaengapi.domain.User;
+import com.mattaeng.mattaengapi.entity.User;
 import com.mattaeng.mattaengapi.security.BCryptConfig;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +10,8 @@ import lombok.RequiredArgsConstructor;
 public class CreateUserRequest {
 
     private String userId;
-
     private String password;
-
     private String username;
-
     private String phoneNumber;
 
     public User toUser() {

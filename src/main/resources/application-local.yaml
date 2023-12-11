@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  devtools:
+    add-properties: false
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL57Dialect
+
+
+  datasource:
+    url: jdbc:p6spy:mysql://localhost:3306/${MYSQL_DATABASE}
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+
+#  data:
+#    mongodb:
+#      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@localhost:27017/dog?authSource=admin
+#    redis:
+#      host: localhost
+#      port: 6379
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+jwt:
+  header: Authorization
+  secret: ${JWT_SECRET_KEY}
+
+
+logging:
+  level:
+#    root: DEBUG
+    web: DEBUG
+    org:
+      springframework:
+#        security: DEBUG

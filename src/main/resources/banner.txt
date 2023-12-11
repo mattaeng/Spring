@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_RED}  __  __       _        _____     _____       _      U _____ u   _   _        ____
+${AnsiColor.BRIGHT_YELLOW}U|' \/ '|u U  /"\  u   |_ " _|   |_ " _|  U  /"\  u  \| ___"|/  | \ |"|    U /"___|u
+${AnsiColor.GREEN}\| |\/| |/  \/ _ \/      | |       | |     \/ _ \/    |  _|"   <|  \| |>   \| |  _ /
+${AnsiColor.BLUE} | |  | |   / ___ \     /| |\     /| |\    / ___ \    | |___   U| |\  |u    | |_| |
+${AnsiColor.BRIGHT_MAGENTA} |_|  |_|  /_/   \_\   u |_|U    u |_|U   /_/   \_\   |_____|   |_| \_|      \____|
+${AnsiColor.BRIGHT_CYAN}<<,-,,-.    \\    >>   _// \\_   _// \\_   \\    >>   <<   >>   ||   \\,-.   _)(|_
+${AnsiColor.BRIGHT_WHITE} (./  \.)  (__)  (__) (__) (__) (__) (__) (__)  (__) (__) (__)  (_")  (_/   (__)__)
+                        ${AnsiColor.BRIGHT_YELLOW}::  소영섭, 손대호, 박효찬 ::
+                        ${AnsiColor.BRIGHT_GREEN}:: Spring Boot ${spring-boot.version} ::

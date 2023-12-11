@@ -1,4 +1,4 @@
-package common.error;
+package com.mattaeng.mattaengapi.common.error;
 
 public interface ErrorCodeIfs {
     Integer getHttpStatusCode();

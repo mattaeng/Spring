@@ -1,4 +1,4 @@
-package common.auditing;
+package com.mattaeng.mattaengapi.common.auditing;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

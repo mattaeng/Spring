@@ -1,8 +1,8 @@
-package common.excepationhandler;
+package com.mattaeng.mattaengapi.common.exceptionHandler;
 
-import common.api.Api;
-import common.error.ErrorCode;
-import common.exception.ApiException;
+import com.mattaeng.mattaengapi.common.api.Api;
+import com.mattaeng.mattaengapi.common.error.ErrorCode;
+import com.mattaeng.mattaengapi.common.exception.ApiException;
 import java.nio.file.AccessDeniedException;
 import java.rmi.AccessException;
 import lombok.extern.slf4j.Slf4j;

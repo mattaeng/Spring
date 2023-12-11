@@ -1,6 +1,6 @@
-package common.exception;
+package com.mattaeng.mattaengapi.common.exception;
 
-import common.error.ErrorCodeIfs;
+import com.mattaeng.mattaengapi.common.error.ErrorCodeIfs;
 import lombok.Getter;
 
 @Getter

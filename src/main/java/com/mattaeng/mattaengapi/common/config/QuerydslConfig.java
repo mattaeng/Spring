@@ -1,4 +1,4 @@
-package common.config;
+package com.mattaeng.mattaengapi.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

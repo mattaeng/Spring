@@ -1,6 +1,6 @@
-package common.api;
+package com.mattaeng.mattaengapi.common.api;
 
-import common.error.ErrorCodeIfs;
+import com.mattaeng.mattaengapi.common.error.ErrorCodeIfs;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

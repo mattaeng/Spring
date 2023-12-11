@@ -1,4 +1,4 @@
-package common.error;
+package com.mattaeng.mattaengapi.common.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,10 @@
 package com.mattaeng.mattaengapi.service;
 
+import com.mattaeng.mattaengapi.common.error.ErrorCode;
+import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
+import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
 import com.mattaeng.mattaengapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +15,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void createUser(CreateUserRequest createUserRequest) {
-        // TODO: 이미 존재하는 유저인 경우 예외처리
+    public CreateUserResponse createUser(CreateUserRequest createUserRequest) {
         if (userRepository.existsByUsername(createUserRequest.getUsername())) {
-            return;
+            throw new ApiException(ErrorCode.BAD_REQUEST, "이미 존재하는 유저입니다.");
         }
-        userRepository.save(createUserRequest.toUser());
+        User user = userRepository.save(createUserRequest.toUser());
+        return user.toCreateUserResponse();
     }
 }

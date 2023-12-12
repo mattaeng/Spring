@@ -5,6 +5,7 @@ import java.rmi.AccessException;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -29,5 +30,13 @@ public class CustomExceptionHandler {
 	public ResponseEntity<Api<Object>> handleForbidden(AccessDeniedException e) {
 		return new ExceptionResponseBuilder(ErrorCode.FORBIDDEN, e.getMessage())
 			.build();
+	}
+
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public ResponseEntity<Api<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+		return new ExceptionResponseBuilder(
+			ErrorCode.BAD_REQUEST,
+			e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
+		).build();
 	}
 }

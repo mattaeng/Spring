@@ -1,11 +1,12 @@
 package com.mattaeng.mattaengapi.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @Getter
@@ -53,5 +54,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public CreateUserResponse toCreateUserResponse() {
+        return CreateUserResponse.builder()
+            .userId(this.userId)
+            .username(this.username)
+            .phoneNumber(this.phoneNumber)
+            .build();
     }
 }

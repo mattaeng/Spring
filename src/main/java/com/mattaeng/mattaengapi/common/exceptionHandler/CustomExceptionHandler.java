@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mattaeng.mattaengapi.common.api.Api;
-import com.mattaeng.mattaengapi.common.error.ErrorCode;
+import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +28,14 @@ public class CustomExceptionHandler {
 
 	@ExceptionHandler(value = AccessException.class)
 	public ResponseEntity<Api<Object>> handleForbidden(AccessDeniedException e) {
-		return new ExceptionResponseBuilder(ErrorCode.FORBIDDEN, e.getMessage())
+		return new ExceptionResponseBuilder(CommonErrorCode.FORBIDDEN, e.getMessage())
 			.build();
 	}
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public ResponseEntity<Api<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		return new ExceptionResponseBuilder(
-			ErrorCode.BAD_REQUEST,
+			CommonErrorCode.BAD_REQUEST,
 			e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
 		).build();
 	}

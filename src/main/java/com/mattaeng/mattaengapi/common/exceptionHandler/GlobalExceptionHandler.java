@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mattaeng.mattaengapi.common.api.Api;
-import com.mattaeng.mattaengapi.common.error.ErrorCode;
+import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({Exception.class})
 	public ResponseEntity<Api<Object>> exception(Exception exception) {
-		return new ExceptionResponseBuilder(ErrorCode.SERVER_ERROR, exception.getMessage())
+		return new ExceptionResponseBuilder(CommonErrorCode.SERVER_ERROR, exception.getMessage())
 			.build();
 	}
 

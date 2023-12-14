@@ -16,10 +16,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public CreateUserResponse createUser(CreateUserRequest createUserRequest) {
-        if (userRepository.existsByUsername(createUserRequest.getUsername())) {
+        if (userRepository.existsByUsername(createUserRequest.username())) {
             throw new ApiException(CommonErrorCode.BAD_REQUEST, "이미 존재하는 유저입니다.");
         }
-        User user = userRepository.save(createUserRequest.toUser());
+        User user = userRepository.save(createUserRequest.toEntity());
         return user.toCreateUserResponse();
     }
 }

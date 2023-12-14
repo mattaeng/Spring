@@ -1,12 +1,14 @@
 package com.mattaeng.mattaengapi.domain;
 
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Getter
@@ -14,8 +16,10 @@ import lombok.Getter;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     private String userId;
 
@@ -25,7 +29,7 @@ public class User {
 
     private String phoneNumber;
 
-    public User(Long id, String userId, String password, String username, String phoneNumber) {
+    public User(UUID id, String userId, String password, String username, String phoneNumber) {
         this.id = id;
         this.userId = userId;
         this.password = password;
@@ -36,7 +40,7 @@ public class User {
     public User() {
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -58,6 +62,7 @@ public class User {
 
     public CreateUserResponse toCreateUserResponse() {
         return CreateUserResponse.builder()
+            .id(this.id)
             .userId(this.userId)
             .username(this.username)
             .phoneNumber(this.phoneNumber)

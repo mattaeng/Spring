@@ -14,6 +14,7 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
 
+    public
     public CreateFeedResponse createFeed(CreateFeedRequest createFeedRequest) {
         Feed feed = feedRepository.save(Feed.from(createFeedRequest));
         return CreateFeedResponse.from(feed);

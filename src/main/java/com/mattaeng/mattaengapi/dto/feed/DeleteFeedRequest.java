@@ -1,5 +1,9 @@
 package com.mattaeng.mattaengapi.dto.feed;
 
-public record DeleteFeedRequest (){
+import com.mattaeng.mattaengapi.common.enums.FeedStatus;
+
+public record DeleteFeedRequest (
+    FeedStatus feedStatus
+){
 
 }

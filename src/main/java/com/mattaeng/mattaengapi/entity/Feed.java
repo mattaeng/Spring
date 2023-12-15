@@ -3,6 +3,8 @@ package com.mattaeng.mattaengapi.entity;
 import com.mattaeng.mattaengapi.common.auditing.BaseTimeEntity;
 import com.mattaeng.mattaengapi.common.enums.FeedStatus;
 import com.mattaeng.mattaengapi.dto.feed.CreateFeedRequest;
+import com.mattaeng.mattaengapi.dto.feed.DeleteFeedRequest;
+import com.mattaeng.mattaengapi.dto.feed.UpdateFeedRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -56,4 +58,15 @@ public class Feed extends BaseTimeEntity {
         this.feedStatus = feedStatus;
     }
 
+    public void updateFeed(UpdateFeedRequest updateFeedRequest){
+        if (updateFeedRequest.feedContent() != null) {
+            this.feedContent = updateFeedRequest.feedContent();
+        }
+    }
+
+    public  void deleteFeed(DeleteFeedRequest deleteFeedRequest) {
+        if (deleteFeedRequest.feedStatus() != null) {
+            this.feedStatus = FeedStatus.INACTIVATE;
+        }
+    }
 }

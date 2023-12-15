@@ -1,5 +1,7 @@
 package com.mattaeng.mattaengapi.dto.feed;
 
-public record UpdateFeedRequest() {
+public record UpdateFeedRequest(
+    String feedContent
+) {
 
 }

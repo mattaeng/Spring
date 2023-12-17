@@ -1,12 +1,10 @@
-server:
-  port: 8080
-
 spring:
-  devtools:
-    add-properties: false
   config:
     activate:
       on-profile: local
+
+  devtools:
+    add-properties: false
 
   jpa:
     hibernate:
@@ -43,7 +41,7 @@ jwt:
 
 logging:
   level:
-#    root: DEBUG
+    #    root: DEBUG
     web: DEBUG
     org:
       springframework:

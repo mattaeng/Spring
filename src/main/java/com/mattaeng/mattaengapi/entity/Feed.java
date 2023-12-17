@@ -27,19 +27,23 @@ public class Feed extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
     @Lob
     private String content;
 
     @Enumerated(EnumType.STRING)
     private FeedStatus feedStatus;
 
-//    @OneToMany(mappedBy = "feed")
-//    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "feed")
+    private List<Comment> comments = new ArrayList<>();
 
-    private Feed(Long id, String content, FeedStatus feedStatus){
+    private Feed(Long id, String title, String content, FeedStatus feedStatus, List<Comment>comments){
         this.id = id;
+        this.title = title;
         this.content = content;
         this.feedStatus = feedStatus;
+        this.comments = comments;
     }
 
     public static Feed from(CreateFeedRequest createFeedRequest){
@@ -49,6 +53,16 @@ public class Feed extends BaseTimeEntity {
             .feedStatus(FeedStatus.ACTIVATIE)
             .build();
     }
+    public void updateFeed(UpdateFeedRequest updateFeedRequest){
+        if (updateFeedRequest.feedContent() != null) {
+            this.content = updateFeedRequest.feedContent();
+        }
+    }
+    public  void deleteFeed(DeleteFeedRequest deleteFeedRequest) {
+        if (deleteFeedRequest.feedStatus() != null) {
+            this.feedStatus = FeedStatus.INACTIVATE;
+        }
+    }
     public Feed() {
 
     }
@@ -57,23 +71,15 @@ public class Feed extends BaseTimeEntity {
         this.id = id;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
 
     public void setFeedStatus(FeedStatus feedStatus) {
         this.feedStatus = feedStatus;
-    }
-
-    public void updateFeed(UpdateFeedRequest updateFeedRequest){
-        if (updateFeedRequest.feedContent() != null) {
-            this.content = updateFeedRequest.feedContent();
-        }
-    }
-
-    public  void deleteFeed(DeleteFeedRequest deleteFeedRequest) {
-        if (deleteFeedRequest.feedStatus() != null) {
-            this.feedStatus = FeedStatus.INACTIVATE;
-        }
     }
 }

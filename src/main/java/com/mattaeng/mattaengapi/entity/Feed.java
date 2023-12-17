@@ -12,6 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,26 +22,30 @@ import lombok.Getter;
 @Builder
 @Entity
 public class Feed extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long feedId;
+    private Long id;
 
     @Lob
-    private String feedContent;
+    private String content;
 
     @Enumerated(EnumType.STRING)
     private FeedStatus feedStatus;
 
-    private Feed(Long feedId, String feedContent, FeedStatus feedStatus){
-        this.feedId = feedId;
-        this.feedContent = feedContent;
+//    @OneToMany(mappedBy = "feed")
+//    private List<Comment> comments = new ArrayList<>();
+
+    private Feed(Long id, String content, FeedStatus feedStatus){
+        this.id = id;
+        this.content = content;
         this.feedStatus = feedStatus;
     }
 
     public static Feed from(CreateFeedRequest createFeedRequest){
         return  Feed.builder()
-            .feedId(0L)
-            .feedContent(createFeedRequest.feedContent())
+            .id(0L)
+            .content(createFeedRequest.feedContent())
             .feedStatus(FeedStatus.ACTIVATIE)
             .build();
     }
@@ -46,12 +53,12 @@ public class Feed extends BaseTimeEntity {
 
     }
 
-    public void setFeedId(Long feedId) {
-        this.feedId = feedId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setFeedContent(String feedContent) {
-        this.feedContent = feedContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public void setFeedStatus(FeedStatus feedStatus) {
@@ -60,7 +67,7 @@ public class Feed extends BaseTimeEntity {
 
     public void updateFeed(UpdateFeedRequest updateFeedRequest){
         if (updateFeedRequest.feedContent() != null) {
-            this.feedContent = updateFeedRequest.feedContent();
+            this.content = updateFeedRequest.feedContent();
         }
     }
 

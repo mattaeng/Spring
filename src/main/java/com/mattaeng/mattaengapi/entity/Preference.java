@@ -15,7 +15,7 @@ import lombok.Getter;
 @Getter
 @Entity
 @Builder
-public class Like extends BaseTimeEntity {
+public class Preference extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,11 @@ public class Like extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private LikeStatus likeStatus;
 
-    public Like() {
+    public Preference() {
 
     }
 
-    public Like(Long id, LikeStatus likeStatus) {
+    public Preference(Long id, LikeStatus likeStatus) {
         this.id = id;
         this.likeStatus = likeStatus;
     }

@@ -1,137 +1,143 @@
 plugins {
-	id 'java'
-  id 'jacoco'
-	id 'org.springframework.boot' version '3.0.12'
-	id 'io.spring.dependency-management' version '1.1.3'
+    id 'java'
+    id 'jacoco'
+    id 'org.springframework.boot' version '3.0.12'
+    id 'io.spring.dependency-management' version '1.1.3'
 }
 
 group = 'com.mattaeng'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 jacoco {
-  toolVersion = '0.8.10'
+    toolVersion = '0.8.10'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-  //Swagger
-  implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
-  //p6spy
-  implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+    //Swagger
+    implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
+    //p6spy
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
-  //QueryDsl
-  implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-  implementation "com.querydsl:querydsl-core:5.0.0"
-  annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-  annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-  annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    //QueryDsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    implementation "com.querydsl:querydsl-core:5.0.0"
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-  //OkHttp3
-  implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
+    //OkHttp3
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.12.0'
 
-  compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
-  finalizedBy 'jacocoTestReport'
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+tasks.register('copyDeps', Copy) {
+    from(sourceSets.main.runtimeClasspath)
+    includeEmptyDirs = false
+    into('/opt/app/api/classes/')
 }
 
 jacocoTestReport {
-  reports {
-    html.required = true
-    xml.required = true
-    csv.required = false
-  }
-  def qTypes = []
-  for(qPattern in "**/entity/QA" .. "**/entity/QZ"){
-    qTypes.add(qPattern + "*")
-  }
+    reports {
+        html.required = true
+        xml.required = true
+        csv.required = false
+    }
+    def qTypes = []
+    for (qPattern in "**/entity/QA".."**/entity/QZ") {
+        qTypes.add(qPattern + "*")
+    }
 
-  afterEvaluate {
-    classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: [
-          "mattaeng-api.domain.**.**",
-          "**/*Application*",
-          "**/*Config*",
-          "**/*Dto*",
-          "**/*Request*",
-          "**/*Response*",
-          "**/*Interceptor*",
-          "**/*Exception*",
-          "**/*common*"
-      ] + qTypes)
-    })
-    )
-  }
-  finalizedBy 'jacocoTestCoverageVerification'
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "mattaeng-api.domain.**.**",
+                    "**/*Application*",
+                    "**/*Config*",
+                    "**/*Dto*",
+                    "**/*Request*",
+                    "**/*Response*",
+                    "**/*Interceptor*",
+                    "**/*Exception*",
+                    "**/*common*"
+            ] + qTypes)
+        })
+        )
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
 }
 
 jacocoTestCoverageVerification {
-  def qTypes = []
-  for (qPattern in '*.entity.QA'..'*.entity.QZ') {
-    qTypes.add(qPattern + '*')
-  }
-  violationRules {
-    rule {
-      enabled = true
-      element = 'CLASS'
-      // includes = []
-
-      limit {
-        counter = 'LINE'
-        value = 'COVEREDRATIO'
-        minimum = 0.8
-      }
-
-      limit {
-        counter = 'BRANCH'
-        value = 'COVEREDRATIO'
-        minimum = 0.8
-      }
-
-      limit {
-        counter = 'LINE'
-        value = 'TOTALCOUNT'
-        maximum = 200
-      }
-
-      excludes = [
-          "*.*Application",
-          "mattaeng-api.**.**",
-          "**.*Application*",
-          "**.*Config*",
-          "**.*Dto*",
-          "**.*Request*",
-          "**.*Response*",
-          "**.*Interceptor*",
-          "**.*Exception*",
-      ] + qTypes
+    def qTypes = []
+    for (qPattern in '*.entity.QA'..'*.entity.QZ') {
+        qTypes.add(qPattern + '*')
     }
-  }
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+            // includes = []
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.8
+            }
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.8
+            }
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 200
+            }
+
+            excludes = [
+                    "*.*Application",
+                    "mattaeng-api.**.**",
+                    "**.*Application*",
+                    "**.*Config*",
+                    "**.*Dto*",
+                    "**.*Request*",
+                    "**.*Response*",
+                    "**.*Interceptor*",
+                    "**.*Exception*",
+            ] + qTypes
+        }
+    }
 }

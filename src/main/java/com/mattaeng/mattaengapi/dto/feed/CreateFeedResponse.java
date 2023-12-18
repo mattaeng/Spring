@@ -5,12 +5,14 @@ import lombok.Builder;
 
 @Builder
 public record CreateFeedResponse (
-    String feedContent
+    String title,
+    String content
 )
 {
     public static CreateFeedResponse from(Feed feed){
         return CreateFeedResponse.builder()
-            .feedContent(feed.getFeedContent())
+            .title(feed.getTitle())
+            .content(feed.getContent())
             .build();
     }
 }

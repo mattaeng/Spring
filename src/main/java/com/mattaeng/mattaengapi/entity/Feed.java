@@ -8,6 +8,7 @@ import com.mattaeng.mattaengapi.dto.feed.UpdateFeedRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,19 +44,20 @@ public class Feed extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.feedStatus = feedStatus;
-        this.comments = comments;
+        this.comments = comments != null ? comments : new ArrayList<>();
     }
 
     public static Feed from(CreateFeedRequest createFeedRequest){
         return  Feed.builder()
             .id(0L)
-            .content(createFeedRequest.feedContent())
+            .title(createFeedRequest.title())
+            .content(createFeedRequest.content())
             .feedStatus(FeedStatus.ACTIVATIE)
             .build();
     }
     public void updateFeed(UpdateFeedRequest updateFeedRequest){
-        if (updateFeedRequest.feedContent() != null) {
-            this.content = updateFeedRequest.feedContent();
+        if (updateFeedRequest.content() != null) {
+            this.content = updateFeedRequest.content();
         }
     }
     public  void deleteFeed(DeleteFeedRequest deleteFeedRequest) {

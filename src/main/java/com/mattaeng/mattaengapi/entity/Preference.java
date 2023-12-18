@@ -1,8 +1,8 @@
 package com.mattaeng.mattaengapi.entity;
 
 import com.mattaeng.mattaengapi.common.auditing.BaseTimeEntity;
-import com.mattaeng.mattaengapi.common.enums.LikeStatus;
-import com.mattaeng.mattaengapi.dto.like.UpdateLikeRequest;
+import com.mattaeng.mattaengapi.common.enums.PreferenceStatus;
+import com.mattaeng.mattaengapi.dto.preference.UpdatePreferenceRequest;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,21 +22,21 @@ public class Preference extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private LikeStatus likeStatus;
+    private PreferenceStatus preferenceStatus;
 
     public Preference() {
 
     }
 
-    public Preference(Long id, LikeStatus likeStatus) {
+    public Preference(Long id, PreferenceStatus preferenceStatus) {
         this.id = id;
-        this.likeStatus = likeStatus;
+        this.preferenceStatus = preferenceStatus;
     }
 
     // TODO: activate and inactivate 나눠서 로직 작성
-    public void updateLikeStatus(UpdateLikeRequest updateLikeRequest){
-        if (updateLikeRequest.likeStatus() != null){
-            this.likeStatus = LikeStatus.INACTIVATE;
+    public void updateLikeStatus(UpdatePreferenceRequest updatePreferenceRequest){
+        if (updatePreferenceRequest.preferenceStatus() != null){
+            this.preferenceStatus = PreferenceStatus.INACTIVATE;
         }
     }
 }

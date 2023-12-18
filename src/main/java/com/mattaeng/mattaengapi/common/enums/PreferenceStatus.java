@@ -1,5 +1,5 @@
 package com.mattaeng.mattaengapi.common.enums;
 
-public enum LikeStatus {
+public enum PreferenceStatus {
     ACTIVATIE, INACTIVATE
 }

@@ -7,13 +7,13 @@ import lombok.Builder;
 @Builder
 public record FeedResponse(
     Long id,
-    String feedContent,
+    String content,
     FeedStatus feedStatus
 ) {
     public static FeedResponse from(Feed feed){
         return FeedResponse.builder()
-            .id(feed.getFeedId())
-            .feedContent(feed.getFeedContent())
+            .id(feed.getId())
+            .content(feed.getContent())
             .feedStatus(feed.getFeedStatus())
             .build();
     }

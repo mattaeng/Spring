@@ -1,13 +1,15 @@
 package com.mattaeng.mattaengapi.repository;
 
-import com.mattaeng.mattaengapi.domain.User;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.mattaeng.mattaengapi.domain.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Boolean existsByUsername(String username);
+	Boolean existsByUserIdOrPhoneNumber(String userId, String phoneNumber);
 
-    Optional<User> findByUsername(String username);
+	Optional<User> getByUserId(String userId);
 }

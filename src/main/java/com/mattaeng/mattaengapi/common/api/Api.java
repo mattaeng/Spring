@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.mattaeng.mattaengapi.common.error.ErrorCodeIfs;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,10 +39,9 @@ public class Api<T> {
 		return new Api<>(error);
 	}
 
-	@Getter
-	@AllArgsConstructor
-	private static class Error {
-		private Integer errorCode;
-		private String description;
+	private record Error(
+		Integer errorCode,
+		String description
+	) {
 	}
 }

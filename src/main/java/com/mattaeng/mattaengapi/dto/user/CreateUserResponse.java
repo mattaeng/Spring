@@ -1,15 +1,14 @@
 package com.mattaeng.mattaengapi.dto.user;
 
+import java.util.UUID;
+
 import lombok.Builder;
-import lombok.Getter;
 
 @Builder
-@Getter
-public class CreateUserResponse {
-
-    private String userId;
-
-    private String username;
-
-    private String phoneNumber;
+public record CreateUserResponse(
+	UUID id,
+	String userId,
+	String username,
+	String phoneNumber
+) {
 }

@@ -10,6 +10,7 @@ import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
 import com.mattaeng.mattaengapi.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ public class UserController {
 
 	private final UserService userService;
 
+	@Operation(summary = "회원가입 API")
 	@PostMapping("/users")
 	public Api<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
 		return Api.ok(userService.createUser(createUserRequest));

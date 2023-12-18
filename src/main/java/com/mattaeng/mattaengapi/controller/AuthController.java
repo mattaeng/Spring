@@ -10,6 +10,7 @@ import com.mattaeng.mattaengapi.dto.auth.LoginRequest;
 import com.mattaeng.mattaengapi.dto.auth.LoginResponse;
 import com.mattaeng.mattaengapi.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -19,6 +20,7 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	@Operation(summary = "로그인 API")
 	@PostMapping("/login")
 	public Api<LoginResponse> login(@RequestBody LoginRequest request) {
 		return Api.ok(authService.login(request));

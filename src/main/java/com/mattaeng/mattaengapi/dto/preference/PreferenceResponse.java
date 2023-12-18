@@ -1,5 +1,5 @@
-package com.mattaeng.mattaengapi.dto.like;
+package com.mattaeng.mattaengapi.dto.preference;
 
-public record LikeResponse() {
+public record PreferenceResponse() {
 
 }

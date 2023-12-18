@@ -1,11 +1,11 @@
-package com.mattaeng.mattaengapi.dto.like;
+package com.mattaeng.mattaengapi.dto.preference;
 
-import com.mattaeng.mattaengapi.common.enums.LikeStatus;
+import com.mattaeng.mattaengapi.common.enums.PreferenceStatus;
 import lombok.Builder;
 
 @Builder
-public record UpdateLikeRequest(
-    LikeStatus likeStatus
+public record UpdatePreferenceRequest(
+    PreferenceStatus preferenceStatus
 ) {
 
 }

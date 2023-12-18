@@ -51,6 +51,7 @@ public class FeedService {
             .orElseThrow(() -> new NoSuchElementException("존재하지 않는 피드입니다."));
     }
 
+    //TODO: 댓글 관련 같이 삭제 되는 로직 작성 필요함
     @Transactional
     public DeleteFeedResponse deleteFeed(DeleteFeedRequest deleteFeedRequest, Long id){
         return feedRepository.findById(id)

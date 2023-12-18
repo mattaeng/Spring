@@ -14,24 +14,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable);
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			.cors(Customizer.withDefaults())
+			.csrf(AbstractHttpConfigurer::disable)
+			.sessionManagement(session -> session
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			)
+			.httpBasic(AbstractHttpConfigurer::disable)
+			.formLogin(AbstractHttpConfigurer::disable);
 
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                        .requestMatchers("/**").permitAll() // TODO: 개발용
-                        .anyRequest().authenticated()
-                );
+		http
+			.authorizeHttpRequests(auth -> auth
+				.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+				.requestMatchers("/**").permitAll() // TODO: 개발용
+				.anyRequest().authenticated()
+			);
 
-        return http.build();
-    }
+		return http.build();
+	}
 }

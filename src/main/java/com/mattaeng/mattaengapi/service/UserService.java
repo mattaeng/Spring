@@ -19,9 +19,10 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
+	// TODO: (추가) 휴대폰 인증, 약관 동의
 	public CreateUserResponse createUser(CreateUserRequest request) {
 		if (userRepository.existsByUserIdOrPhoneNumber(request.userId(), request.phoneNumber())) {
-			throw new ApiException(CommonErrorCode.BAD_REQUEST, "이미 존재하는 유저입니다.");
+			throw new ApiException(CommonErrorCode.BAD_REQUEST, "이미 존재하는 유저입니다."); // TODO: (수정) 유저 에러코드 정의
 		}
 		User user = userRepository.save(request.toEntity());
 		return user.toCreateUserResponse();

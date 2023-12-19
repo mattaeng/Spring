@@ -14,12 +14,8 @@ services:
     image: mysql:8.0
     volumes:
       - mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: Asia/Seoul
+    env_file:
+      - .env
     ports:
       - "3307:3306"
     platform: linux/x86_64
@@ -35,8 +31,8 @@ services:
         condition: service_started
     volumes:
       - app_home:/opt/app
-    environment:
-      TZ: Asia/Seoul
+    env_file:
+      - .env
     ports:
       - "8081:8080"
     restart: always

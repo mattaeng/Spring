@@ -8,11 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
 import com.mattaeng.mattaengapi.common.error.ErrorCodeIfs;
+import com.mattaeng.mattaengapi.common.exception.ApiException;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,10 +24,8 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 	) throws ServletException, IOException {
 		try {
 			filterChain.doFilter(request, response);
-		} catch (ExpiredJwtException e) {
-			setErrorResponse(response, AuthErrorCode.EXPIRED_TOKEN);
-		} catch (JwtException | IllegalArgumentException e) {
-			setErrorResponse(response, AuthErrorCode.INVALID_TOKEN);
+		} catch (ApiException e) {
+			setErrorResponse(response, e.getErrorCodeIfs());
 		}
 	}
 

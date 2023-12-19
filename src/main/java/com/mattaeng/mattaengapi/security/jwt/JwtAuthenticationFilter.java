@@ -2,8 +2,13 @@ package com.mattaeng.mattaengapi.security.jwt;
 
 import java.io.IOException;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.mattaeng.mattaengapi.security.CustomUserDetails;
+import com.mattaeng.mattaengapi.security.CustomUserDetailsService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,13 +25,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final String SIGNUP_ENDPOINT = "/api/v1/users";
 
 	private final JwtProvider jwtProvider;
+	private final CustomUserDetailsService customUserDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
 	) throws ServletException, IOException {
 		if (!isExcludeUri(request.getRequestURI())) {
 			String jws = jwtProvider.extractJwsFromRequest(request);
-			jwtProvider.verifyJws(jws);
+			String userId = jwtProvider.getSubFromJws(jws);
+			CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(userId);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+				userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		filterChain.doFilter(request, response);
 	}

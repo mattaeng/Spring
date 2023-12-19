@@ -7,6 +7,13 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
+import com.mattaeng.mattaengapi.common.exception.ApiException;
+import com.querydsl.core.util.StringUtils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -49,20 +56,35 @@ public class JwtProvider {
 			.compact();
 	}
 
-	public String extractJwsFromRequest(HttpServletRequest reqeust) {
-		String authorization = reqeust.getHeader(this.AUTHORIZATION_HEADER_KEY);
+	public String extractJwsFromRequest(HttpServletRequest request) {
+		String authorization = request.getHeader(this.AUTHORIZATION_HEADER_KEY);
+		if (StringUtils.isNullOrEmpty(authorization)) {
+			throw new ApiException(AuthErrorCode.EMPTY_AUTHORIZATION_HEADER);
+		}
+		if (!authorization.startsWith(AUTHENTICATION_TYPE)) {
+			throw new ApiException(AuthErrorCode.INVALID_AUTHORIZATION_TYPE);
+		}
 		try {
 			return authorization.substring(this.AUTHENTICATION_TYPE.length() + 1);
-		} catch (Exception e) {
-			return null;
+		} catch (IndexOutOfBoundsException e) {
+			throw new ApiException(AuthErrorCode.EMPTY_TOKEN);
 		}
 	}
 
-	public void verifyJws(String jws) {
+	public String getSubFromJws(String jws) {
+		return getJwsClaims(jws)
+			.getPayload()
+			.getSubject();
+	}
+
+	private Jws<Claims> getJwsClaims(String jws) {
 		try {
-			jwtParser.parseSignedClaims(jws);
-		} catch (JwtException e) {
-			System.out.println(e.getMessage());
+			return jwtParser.parseSignedClaims(jws);
+		} catch (ExpiredJwtException e) {
+			throw new ApiException(AuthErrorCode.EXPIRED_TOKEN);
+		} catch (JwtException | IllegalArgumentException e) {
+			throw new ApiException(AuthErrorCode.INVALID_TOKEN);
 		}
 	}
+
 }

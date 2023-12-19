@@ -39,13 +39,14 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
 				.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+				.requestMatchers("/swagger-ui/**").permitAll()
 				.requestMatchers("/**").permitAll() // TODO: 개발용
 				.anyRequest().authenticated()
 			);
 
 		http
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
+			.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
 		return http.build();
 	}

@@ -31,6 +31,6 @@ public class AuthService {
 					.accessToken(accessToken)
 					.build();
 			})
-			.orElseThrow(() -> new ApiException(AuthErrorCode.NOT_EXIST_EMAIL));
+			.orElseThrow(() -> new ApiException(AuthErrorCode.NOT_EXIST_USERID));
 	}
 }

@@ -40,7 +40,7 @@ public class Api<T> {
 	}
 
 	private record Error(
-		Integer errorCode,
+		String errorCode,
 		String description
 	) {
 	}

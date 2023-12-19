@@ -4,15 +4,16 @@ spring:
       on-profile: local
 
   devtools:
-    add-properties: false
+    restart:
+      enabled: true
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
+      ddl-auto: update
+    #    show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        #        format_sql: true
         dialect: org.hibernate.dialect.MySQL57Dialect
 
 
@@ -35,14 +36,14 @@ decorator:
       enable-logging: true
 
 jwt:
-  header: Authorization
   secret: ${JWT_SECRET_KEY}
+  expiry-milliseconds-access-token: ${EXPIRY_MILLISECONDS_ACCESS_TOKEN}
 
 
-logging:
-  level:
-    #    root: DEBUG
-    web: DEBUG
-    org:
-      springframework:
+#logging:
+#  level:
+#    root: DEBUG
+#    web: DEBUG
+#    org:
+#      springframework:
 #        security: DEBUG

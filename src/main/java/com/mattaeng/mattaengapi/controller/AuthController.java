@@ -6,24 +6,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mattaeng.mattaengapi.common.api.Api;
-import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
-import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
-import com.mattaeng.mattaengapi.service.UserService;
+import com.mattaeng.mattaengapi.dto.auth.LoginRequest;
+import com.mattaeng.mattaengapi.dto.auth.LoginResponse;
+import com.mattaeng.mattaengapi.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
 
-	private final UserService userService;
+	private final AuthService authService;
 
-	@Operation(summary = "회원가입 API")
-	@PostMapping("/users")
-	public Api<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
-		return Api.ok(userService.createUser(createUserRequest));
+	@Operation(summary = "로그인 API")
+	@PostMapping("/login")
+	public Api<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+		return Api.ok(authService.login(loginRequest));
 	}
 }

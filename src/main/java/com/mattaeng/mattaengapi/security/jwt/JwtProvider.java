@@ -12,14 +12,16 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtProvider {
 
+	private final String AUTHORIZATION_HEADER_KEY = "Authorization";
+	private final String AUTHENTICATION_TYPE = "Bearer";
+
 	private final Long expiryMillisecondsAccessToken;
-
 	private final JwtParser jwtParser;
-
 	private final SecretKey key;
 
 	public JwtProvider(
@@ -44,6 +46,15 @@ public class JwtProvider {
 			.issuedAt(now)
 			.signWith(key)
 			.compact();
+	}
+
+	public String extractJwsFromRequest(HttpServletRequest reqeust) {
+		String authorization = reqeust.getHeader(this.AUTHORIZATION_HEADER_KEY);
+		try {
+			return authorization.substring(this.AUTHENTICATION_TYPE.length() + 1);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void verifyJws(String jws) {

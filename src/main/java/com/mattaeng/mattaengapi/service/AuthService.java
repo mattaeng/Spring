@@ -20,13 +20,13 @@ public class AuthService {
 	private final JwtProvider jwtProvider;
 	private final BCryptConfig bCryptConfig;
 
-	public LoginResponse login(LoginRequest request) {
-		return userRepository.getByUserId(request.userId())
+	public LoginResponse login(LoginRequest loginRequest) {
+		return userRepository.getByUserId(loginRequest.userId())
 			.map(user -> {
-				if (!bCryptConfig.passwordEncoder().matches(request.password(), user.getPassword())) {
+				if (!bCryptConfig.passwordEncoder().matches(loginRequest.password(), user.getPassword())) {
 					throw new ApiException(AuthErrorCode.INVALID_PASSWORD);
 				}
-				String accessToken = jwtProvider.createAccessToken(request.userId());
+				String accessToken = jwtProvider.createAccessToken(loginRequest.userId());
 				return LoginResponse.builder()
 					.accessToken(accessToken)
 					.build();

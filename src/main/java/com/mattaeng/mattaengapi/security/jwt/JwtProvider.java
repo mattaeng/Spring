@@ -20,15 +20,15 @@ public class JwtProvider {
 
 	private final JwtParser jwtParser;
 
-	private final SecretKey key;
+	private final SecretKey secretKey;
 
 	public JwtProvider(
 		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.expiry-milliseconds-access-token}") Long expiryMillisecondsAccessToken
 	) {
 		this.expiryMillisecondsAccessToken = expiryMillisecondsAccessToken;
-		this.key = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secret));
-		this.jwtParser = Jwts.parser().verifyWith(this.key).build();
+		this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secret));
+		this.jwtParser = Jwts.parser().verifyWith(this.secretKey).build();
 	}
 
 	public String createAccessToken(String userId) {
@@ -42,7 +42,7 @@ public class JwtProvider {
 			.subject(userId)
 			.expiration(expiryDate)
 			.issuedAt(now)
-			.signWith(key)
+			.signWith(secretKey)
 			.compact();
 	}
 

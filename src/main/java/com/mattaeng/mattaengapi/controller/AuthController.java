@@ -22,7 +22,7 @@ public class AuthController {
 
 	@Operation(summary = "로그인 API")
 	@PostMapping("/login")
-	public Api<LoginResponse> login(@RequestBody LoginRequest request) {
-		return Api.ok(authService.login(request));
+	public Api<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+		return Api.ok(authService.login(loginRequest));
 	}
 }

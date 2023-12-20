@@ -23,6 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final String SWAGGER_ENDPOINT = "/swagger-ui";
 	private final String LOGIN_ENDPOINT = "/api/v1/login";
 	private final String SIGNUP_ENDPOINT = "/api/v1/users";
+	private final String POST_METHOD = "POST";
 
 	private final JwtProvider jwtProvider;
 	private final CustomUserDetailsService customUserDetailsService;
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
 	) throws ServletException, IOException {
-		if (!isExcludeUri(request.getRequestURI())) {
+		if (!isExcludeUri(request.getMethod(), request.getRequestURI())) {
 			String jws = jwtProvider.extractJwsFromRequest(request);
 			String userId = jwtProvider.getSubFromJws(jws);
 			CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(userId);
@@ -41,9 +42,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	private Boolean isExcludeUri(String uri) {
+	private Boolean isExcludeUri(String method, String uri) {
 		return uri.startsWith(SWAGGER_ENDPOINT) ||
-			uri.equals(LOGIN_ENDPOINT) ||
-			uri.equals(SIGNUP_ENDPOINT);
+			(uri.equals(LOGIN_ENDPOINT) && method.equals(POST_METHOD)) ||
+			(uri.equals(SIGNUP_ENDPOINT) && method.equals(POST_METHOD));
 	}
 }

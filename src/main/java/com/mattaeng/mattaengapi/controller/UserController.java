@@ -27,8 +27,9 @@ public class UserController {
 
 	private final UserService userService;
 
-	@Operation(summary = "회원가입 API")
+	@Operation(summary = "회원가입")
 	@PostMapping("/users")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Api<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
 		return Api.ok(userService.createUser(createUserRequest));
 	}

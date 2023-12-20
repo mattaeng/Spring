@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
-import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
 import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
@@ -35,7 +34,7 @@ public class UserController {
 	@Operation(summary = "회원가입")
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Api<CreateUserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
+	public Api<UserInfoResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
 		return Api.ok(userService.createUser(createUserRequest));
 	}
 

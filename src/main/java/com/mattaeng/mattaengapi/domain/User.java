@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -60,14 +58,5 @@ public class User {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public CreateUserResponse toCreateUserResponse() {
-		return CreateUserResponse.builder()
-			.id(this.id)
-			.userId(this.userId)
-			.username(this.username)
-			.phoneNumber(this.phoneNumber)
-			.build();
 	}
 }

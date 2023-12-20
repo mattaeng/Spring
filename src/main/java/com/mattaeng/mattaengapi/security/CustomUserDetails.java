@@ -1,5 +1,6 @@
 package com.mattaeng.mattaengapi.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

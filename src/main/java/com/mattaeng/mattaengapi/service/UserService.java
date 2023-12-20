@@ -7,7 +7,9 @@ import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
+import com.mattaeng.mattaengapi.dto.user.MyInfoResponse;
 import com.mattaeng.mattaengapi.repository.UserRepository;
+import com.mattaeng.mattaengapi.security.CustomUserDetails;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,9 @@ public class UserService {
 		}
 		User user = userRepository.save(createUserRequest.toEntity());
 		return user.toCreateUserResponse();
+	}
+
+	public MyInfoResponse getMyInfo(CustomUserDetails userDetails) {
+		return MyInfoResponse.from(userDetails);
 	}
 }

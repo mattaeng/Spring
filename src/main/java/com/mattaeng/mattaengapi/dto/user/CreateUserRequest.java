@@ -34,6 +34,8 @@ public record CreateUserRequest(
 			.password(bCryptConfig.passwordEncoder().encode(this.password))
 			.username(this.username)
 			.phoneNumber(this.phoneNumber)
+			.isAccountNonLocked(true)
+			.isEnabled(true)
 			.build();
 	}
 }

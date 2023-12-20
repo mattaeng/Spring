@@ -1,8 +1,11 @@
 package com.mattaeng.mattaengapi.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
-import com.mattaeng.mattaengapi.dto.user.MyInfoResponse;
+import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 import com.mattaeng.mattaengapi.service.UserService;
 
@@ -36,7 +39,16 @@ public class UserController {
 
 	@Operation(summary = "내 정보 가져오기")
 	@GetMapping("/users/me")
-	public Api<MyInfoResponse> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+	public Api<UserInfoResponse> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
 		return Api.ok(userService.getMyInfo(userDetails));
+	}
+
+	@Operation(summary = "유저 정보 조회")
+	@GetMapping("/users/{id}")
+	public Api<UserInfoResponse> getUserInfo(
+		@AuthenticationPrincipal CustomUserDetails userDetails,
+		@PathVariable UUID id
+	) {
+		return Api.ok(userService.getUserInfo(userDetails, id));
 	}
 }

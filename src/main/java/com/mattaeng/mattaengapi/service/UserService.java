@@ -1,13 +1,16 @@
 package com.mattaeng.mattaengapi.service;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
+import com.mattaeng.mattaengapi.common.error.UserErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
-import com.mattaeng.mattaengapi.dto.user.MyInfoResponse;
+import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.repository.UserRepository;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 
@@ -30,7 +33,14 @@ public class UserService {
 		return user.toCreateUserResponse();
 	}
 
-	public MyInfoResponse getMyInfo(CustomUserDetails userDetails) {
-		return MyInfoResponse.from(userDetails);
+	public UserInfoResponse getMyInfo(CustomUserDetails userDetails) {
+		return UserInfoResponse.from(userDetails);
+	}
+
+	public UserInfoResponse getUserInfo(CustomUserDetails userDetails, UUID id) {
+		// TODO: (고민) 나에게 유저를 조회할 권한이 있는가?
+		return userRepository.getUserById(id)
+			.map(UserInfoResponse::from)
+			.orElseThrow(() -> new ApiException(UserErrorCode.NOT_EXISTS_ID));
 	}
 }

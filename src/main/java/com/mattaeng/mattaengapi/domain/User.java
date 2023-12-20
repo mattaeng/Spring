@@ -52,6 +52,10 @@ public class User {
 	public User() {
 	}
 
+	public Boolean isEnabled() {
+		return this.isEnabled;
+	}
+
 	public CreateUserResponse toCreateUserResponse() {
 		return CreateUserResponse.builder()
 			.id(this.id)

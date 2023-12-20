@@ -33,5 +33,5 @@ decorator:
       enable-logging: false
 
 jwt:
-  header: Authorization
   secret: ${JWT_SECRET_KEY}
+  expiry-milliseconds-access-token: ${EXPIRY_MILLISECONDS_ACCESS_TOKEN}

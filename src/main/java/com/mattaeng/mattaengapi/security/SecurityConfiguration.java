@@ -37,9 +37,8 @@ public class SecurityConfiguration {
 
 		http
 			.authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-				.requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-				.requestMatchers("/swagger-ui/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/users").permitAll()
+				.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs").permitAll()
 				.requestMatchers("/**").permitAll() // TODO: 개발용
 				.anyRequest().authenticated()
 			);

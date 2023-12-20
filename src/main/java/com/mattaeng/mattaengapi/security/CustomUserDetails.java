@@ -9,17 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mattaeng.mattaengapi.domain.User;
 
-public class CustomUserDetails implements UserDetails {
-
-	private final User user;
-
-	public CustomUserDetails(User user) {
-		this.user = user;
-	}
-
-	public User getUser() {
-		return user;
-	}
+public record CustomUserDetails(User user) implements UserDetails {
 
 	public UUID getId() {
 		return user.getId();

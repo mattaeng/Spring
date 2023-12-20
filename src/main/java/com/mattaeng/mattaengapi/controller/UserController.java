@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdateUserPasswordRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 import com.mattaeng.mattaengapi.service.UserService;
@@ -44,6 +45,7 @@ public class UserController {
 		return Api.ok(userService.getMyInfo(userDetails));
 	}
 
+	// TODO: (추가) id에 UUID가 아닌 값이 들어올 경우 500 에러 반환함
 	@Operation(summary = "유저 정보 조회")
 	@GetMapping("/users/{id}")
 	public Api<UserInfoResponse> getUserInfo(
@@ -60,5 +62,14 @@ public class UserController {
 		@RequestBody UpdateUserInfoRequest updateUserInfoRequest
 	) {
 		return Api.ok(userService.updateUserInfo(userDetails, updateUserInfoRequest));
+	}
+
+	@Operation(summary = "비밀번호 변경")
+	@PutMapping("/users/password")
+	public Api<UserInfoResponse> updateUserPassword(
+		@AuthenticationPrincipal CustomUserDetails userDetails,
+		@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest
+	) {
+		return Api.ok(userService.updateUserPassword(userDetails, updateUserPasswordRequest));
 	}
 }

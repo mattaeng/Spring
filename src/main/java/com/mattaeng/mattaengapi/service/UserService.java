@@ -5,14 +5,17 @@ import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
 import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
 import com.mattaeng.mattaengapi.common.error.UserErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdateUserPasswordRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.repository.UserRepository;
+import com.mattaeng.mattaengapi.security.BCryptConfig;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final BCryptConfig bCryptConfig;
 
 	// TODO: (추가) 휴대폰 인증, 약관 동의
 	public UserInfoResponse createUser(CreateUserRequest createUserRequest) {
@@ -46,8 +50,22 @@ public class UserService {
 	}
 
 	public UserInfoResponse updateUserInfo(CustomUserDetails userDetails, UpdateUserInfoRequest updateUserInfoRequest) {
-		User user = userDetails.getUser();
+		User user = userDetails.user();
 		BeanUtils.copyProperties(updateUserInfoRequest, user);
+		return UserInfoResponse.from(userRepository.save(user));
+	}
+
+	public UserInfoResponse updateUserPassword(
+		CustomUserDetails userDetails,
+		UpdateUserPasswordRequest updateUserPasswordRequest
+	) {
+		if (!bCryptConfig.passwordEncoder()
+			.matches(updateUserPasswordRequest.oldPassword(), userDetails.getPassword())) {
+			throw new ApiException(AuthErrorCode.INVALID_PASSWORD);
+		}
+		User user = userDetails.user();
+		String updatedPassword = bCryptConfig.passwordEncoder().encode(updateUserPasswordRequest.newPassword());
+		user.setPassword(updatedPassword);
 		return UserInfoResponse.from(userRepository.save(user));
 	}
 }

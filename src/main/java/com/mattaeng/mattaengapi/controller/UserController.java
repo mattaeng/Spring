@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
 import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
+import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 import com.mattaeng.mattaengapi.service.UserService;
@@ -50,5 +52,14 @@ public class UserController {
 		@PathVariable UUID id
 	) {
 		return Api.ok(userService.getUserInfo(userDetails, id));
+	}
+
+	@Operation(summary = "유저 정보 수정")
+	@PutMapping("/users/info")
+	public Api<UserInfoResponse> updateUserInfo(
+		@AuthenticationPrincipal CustomUserDetails userDetails,
+		@RequestBody UpdateUserInfoRequest updateUserInfoRequest
+	) {
+		return Api.ok(userService.updateUserInfo(userDetails, updateUserInfoRequest));
 	}
 }

@@ -32,10 +32,8 @@ public class User {
 
 	private String phoneNumber;
 
-	// private List<Authorities> authorities;
-	// private Boolean isAccountNonExpired;
 	private Boolean isAccountNonLocked; // TODO: 약관 동의. 약관 동의 안 하면 회원가입이 안되야하는 거 아닌가?
-	// private Boolean isCredentialsNonExpired;
+
 	private Boolean isEnabled; // TODO: Delete 시, false
 
 	public User(UUID id, String userId, String password, String username, String phoneNumber,
@@ -54,6 +52,14 @@ public class User {
 
 	public Boolean isEnabled() {
 		return this.isEnabled;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public CreateUserResponse toCreateUserResponse() {

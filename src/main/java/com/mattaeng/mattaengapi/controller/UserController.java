@@ -45,7 +45,6 @@ public class UserController {
 		return Api.ok(userService.getMyInfo(userDetails));
 	}
 
-	// TODO: (추가) id에 UUID가 아닌 값이 들어올 경우 500 에러 반환함
 	@Operation(summary = "유저 정보 조회")
 	@GetMapping("/users/{id}")
 	public Api<UserInfoResponse> getUserInfo(

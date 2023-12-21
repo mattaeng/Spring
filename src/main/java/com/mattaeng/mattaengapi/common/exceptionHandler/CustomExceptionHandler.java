@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
@@ -37,6 +38,15 @@ public class CustomExceptionHandler {
 		return new ExceptionResponseBuilder(
 			CommonErrorCode.BAD_REQUEST,
 			e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
+		).build();
+	}
+
+	@ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<Api<Object>> handleMethodArgumentTypeMismatchException(
+		MethodArgumentTypeMismatchException e) {
+		return new ExceptionResponseBuilder(
+			CommonErrorCode.BAD_REQUEST,
+			e.getMessage()
 		).build();
 	}
 }

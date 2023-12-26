@@ -58,7 +58,7 @@ public class UserController {
 	@PutMapping("/users/info")
 	public Api<UserInfoResponse> updateUserInfo(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
-		@RequestBody UpdateUserInfoRequest updateUserInfoRequest
+		@Valid @RequestBody UpdateUserInfoRequest updateUserInfoRequest
 	) {
 		return Api.ok(userService.updateUserInfo(userDetails, updateUserInfoRequest));
 	}

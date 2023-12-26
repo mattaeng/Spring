@@ -7,6 +7,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### yaml ###
+application-local.yaml
 ### jacoco ###
 jacoco/
 

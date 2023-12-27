@@ -13,12 +13,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Heart extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +33,7 @@ public class Heart extends BaseTimeEntity {
 	@JoinColumn(name = "feed_id")
 	private Feed feed;
 
-	public Heart() {
-
-	}
-
+	@Builder
 	public Heart(Long id, HeartStatus heartStatus, Feed feed) {
 		this.id = id;
 		this.heartStatus = heartStatus;

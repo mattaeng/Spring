@@ -1,5 +1,10 @@
-package com.mattaeng.mattaengapi.dto.preference;
+package com.mattaeng.mattaengapi.dto.heart;
 
-public record PreferenceRequest() {
+import com.mattaeng.mattaengapi.common.enums.HeartStatus;
+
+public record HeartRequest(
+	Long id,
+	HeartStatus heartStatus
+) {
 
 }

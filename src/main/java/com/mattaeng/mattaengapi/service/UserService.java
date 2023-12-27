@@ -28,7 +28,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final BCryptConfig bCryptConfig;
 
-	// TODO: (추가) 휴대폰 인증, 약관 동의
+	// TODO: (추가) 휴대폰 인증, 약관 동의. 다른 사람의 email 혹은 phoneNumber를 선점하면 어떻게 하지??
 	public UserInfoResponse createUser(CreateUserRequest createUserRequest) {
 		if (userRepository.existsByUserIdOrPhoneNumber(createUserRequest.userId(), createUserRequest.phoneNumber())) {
 			throw new ApiException(UserErrorCode.ALREADY_EXISTS_USER);
@@ -42,7 +42,6 @@ public class UserService {
 	}
 
 	public UserInfoResponse getUserInfo(CustomUserDetails userDetails, UUID id) {
-		// TODO: (고민) 나에게 유저를 조회할 권한이 있는가?
 		return userRepository.getUserById(id)
 			.map(UserInfoResponse::from)
 			.orElseThrow(() -> new ApiException(UserErrorCode.NOT_EXISTS_ID));
@@ -66,5 +65,12 @@ public class UserService {
 		String updatedPassword = bCryptConfig.passwordEncoder().encode(updateUserPasswordRequest.newPassword());
 		user.setPassword(updatedPassword);
 		return UserInfoResponse.from(userRepository.save(user));
+	}
+
+	// TODO: (추가) 추후 유저에 관련된 데이터도 inactive. 유예 기간을 줘야겠는데
+	public void deleteUser(CustomUserDetails userDetails) {
+		User user = userDetails.user();
+		user.setEnabled(false);
+		userRepository.save(user);
 	}
 }

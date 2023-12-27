@@ -48,10 +48,6 @@ public class User {
 		this.isEnabled = isEnabled;
 	}
 
-	public Boolean isEnabled() {
-		return this.isEnabled;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -62,5 +58,13 @@ public class User {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		isEnabled = enabled;
+	}
+
+	public Boolean isEnabled() {
+		return this.isEnabled;
 	}
 }

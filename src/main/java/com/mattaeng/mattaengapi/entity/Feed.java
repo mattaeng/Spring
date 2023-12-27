@@ -1,21 +1,22 @@
 package com.mattaeng.mattaengapi.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mattaeng.mattaengapi.common.auditing.BaseTimeEntity;
 import com.mattaeng.mattaengapi.common.enums.FeedStatus;
 import com.mattaeng.mattaengapi.dto.feed.CreateFeedRequest;
 import com.mattaeng.mattaengapi.dto.feed.DeleteFeedRequest;
 import com.mattaeng.mattaengapi.dto.feed.UpdateFeedRequest;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,64 +25,70 @@ import lombok.Getter;
 @Entity
 public class Feed extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String title;
+	private String title;
 
-    @Lob
-    private String content;
+	@Lob
+	private String content;
 
-    @Enumerated(EnumType.STRING)
-    private FeedStatus feedStatus;
+	private Long heart;
 
-    @OneToMany(mappedBy = "feed")
-    private List<Comment> comments = new ArrayList<>();
+	@Enumerated(EnumType.STRING)
+	private FeedStatus feedStatus;
 
-    private Feed(Long id, String title, String content, FeedStatus feedStatus, List<Comment>comments){
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.feedStatus = feedStatus;
-        this.comments = comments != null ? comments : new ArrayList<>();
-    }
+	@OneToMany(mappedBy = "feed")
+	private List<Comment> comments = new ArrayList<>();
 
-    public static Feed from(CreateFeedRequest createFeedRequest){
-        return  Feed.builder()
-            .id(0L)
-            .title(createFeedRequest.title())
-            .content(createFeedRequest.content())
-            .feedStatus(FeedStatus.ACTIVATIE)
-            .build();
-    }
-    public void updateFeed(UpdateFeedRequest updateFeedRequest){
-        if (updateFeedRequest.content() != null) {
-            this.content = updateFeedRequest.content();
-        }
-    }
-    public  void deleteFeed(DeleteFeedRequest deleteFeedRequest) {
-        if (deleteFeedRequest.feedStatus() != null) {
-            this.feedStatus = FeedStatus.INACTIVATE;
-        }
-    }
-    public Feed() {
+	private Feed(Long id, String title, String content, Long heart, FeedStatus feedStatus, List<Comment> comments) {
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.heart = heart;
+		this.feedStatus = feedStatus;
+		this.comments = comments != null ? comments : new ArrayList<>();
+	}
 
-    }
+	public static Feed from(CreateFeedRequest createFeedRequest) {
+		return Feed.builder()
+			.id(0L)
+			.title(createFeedRequest.title())
+			.content(createFeedRequest.content())
+			.feedStatus(FeedStatus.ACTIVATIE)
+			.build();
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void updateFeed(UpdateFeedRequest updateFeedRequest) {
+		if (updateFeedRequest.content() != null) {
+			this.content = updateFeedRequest.content();
+		}
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void deleteFeed(DeleteFeedRequest deleteFeedRequest) {
+		if (deleteFeedRequest.feedStatus() != null) {
+			this.feedStatus = FeedStatus.INACTIVATE;
+		}
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public Feed() {
 
-    public void setFeedStatus(FeedStatus feedStatus) {
-        this.feedStatus = feedStatus;
-    }
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setFeedStatus(FeedStatus feedStatus) {
+		this.feedStatus = feedStatus;
+	}
 }

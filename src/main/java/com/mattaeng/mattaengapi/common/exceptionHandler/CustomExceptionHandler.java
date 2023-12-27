@@ -12,6 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
+import com.mattaeng.mattaengapi.common.error.MethodArgumentErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class CustomExceptionHandler {
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public ResponseEntity<Api<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		return new ExceptionResponseBuilder(
-			CommonErrorCode.BAD_REQUEST,
+			MethodArgumentErrorCode.INVALID_METHOD_ARGUMENT,
 			e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
 		).build();
 	}
@@ -45,7 +46,7 @@ public class CustomExceptionHandler {
 	public ResponseEntity<Api<Object>> handleMethodArgumentTypeMismatchException(
 		MethodArgumentTypeMismatchException e) {
 		return new ExceptionResponseBuilder(
-			CommonErrorCode.BAD_REQUEST,
+			MethodArgumentErrorCode.INVALID_METHOD_ARGUMENT_TYPE,
 			e.getMessage()
 		).build();
 	}

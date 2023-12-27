@@ -6,7 +6,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
-import com.mattaeng.mattaengapi.common.error.CommonErrorCode;
 import com.mattaeng.mattaengapi.common.error.UserErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
@@ -32,7 +31,7 @@ public class UserService {
 	// TODO: (추가) 휴대폰 인증, 약관 동의
 	public UserInfoResponse createUser(CreateUserRequest createUserRequest) {
 		if (userRepository.existsByUserIdOrPhoneNumber(createUserRequest.userId(), createUserRequest.phoneNumber())) {
-			throw new ApiException(CommonErrorCode.BAD_REQUEST, "이미 존재하는 유저입니다."); // TODO: (수정) 유저 에러코드 정의
+			throw new ApiException(UserErrorCode.ALREADY_EXISTS_USER);
 		}
 		User user = userRepository.save(createUserRequest.toEntity());
 		return UserInfoResponse.from(user);

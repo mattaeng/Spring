@@ -17,12 +17,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed extends BaseTimeEntity {
 
 	@Id
@@ -86,6 +88,10 @@ public class Feed extends BaseTimeEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public void setHeart(Long heart) {
+		this.heart = heart;
 	}
 
 	public void setFeedStatus(FeedStatus feedStatus) {

@@ -8,12 +8,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
 	@Id
@@ -34,7 +36,8 @@ public class User {
 
 	private Boolean isEnabled; // TODO: Delete 시, false
 
-	public User(UUID id, String userId, String password, String username, String phoneNumber,
+	@Builder
+	private User(UUID id, String userId, String password, String username, String phoneNumber,
 		Boolean isAccountNonLocked, Boolean isEnabled) {
 		this.id = id;
 		this.userId = userId;
@@ -43,9 +46,6 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.isAccountNonLocked = isAccountNonLocked;
 		this.isEnabled = isEnabled;
-	}
-
-	public User() {
 	}
 
 	public Boolean isEnabled() {

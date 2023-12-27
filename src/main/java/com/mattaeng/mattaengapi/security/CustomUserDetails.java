@@ -2,18 +2,17 @@ package com.mattaeng.mattaengapi.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.mattaeng.mattaengapi.domain.User;
 
-public class CustomUserDetails implements UserDetails {
+public record CustomUserDetails(User user) implements UserDetails {
 
-	private final User user;
-
-	public CustomUserDetails(User user) {
-		this.user = user;
+	public UUID getId() {
+		return user.getId();
 	}
 
 	public String getUserId() {
@@ -46,7 +45,7 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return user.getIsAccountNonLocked();
 	}
 
 	@Override
@@ -56,6 +55,6 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return user.getIsEnabled();
 	}
 }

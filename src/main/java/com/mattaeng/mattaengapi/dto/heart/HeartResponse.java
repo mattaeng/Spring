@@ -1,5 +1,9 @@
-package com.mattaeng.mattaengapi.dto.preference;
+package com.mattaeng.mattaengapi.dto.heart;
 
-public record PreferenceResponse() {
+import lombok.Builder;
 
+@Builder
+public record HeartResponse(
+
+) {
 }

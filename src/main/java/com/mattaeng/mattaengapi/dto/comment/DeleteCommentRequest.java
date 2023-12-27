@@ -1,5 +1,10 @@
 package com.mattaeng.mattaengapi.dto.comment;
 
-public record DeleteCommentRequest() {
+import com.mattaeng.mattaengapi.common.enums.CommentStatus;
+
+public record DeleteCommentRequest(
+    Long id,
+    CommentStatus commentStatus
+) {
 
 }

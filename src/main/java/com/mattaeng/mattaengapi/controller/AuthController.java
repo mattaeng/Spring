@@ -14,13 +14,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
 	private final AuthService authService;
 
-	@Operation(summary = "로그인 API")
+	@Operation(summary = "로그인")
 	@PostMapping("/login")
 	public Api<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
 		return Api.ok(authService.login(loginRequest));

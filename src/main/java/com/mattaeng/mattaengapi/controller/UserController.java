@@ -26,27 +26,27 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
 	private final UserService userService;
 
 	@Operation(summary = "회원가입")
-	@PostMapping("/users")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Api<UserInfoResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
 		return Api.ok(userService.createUser(createUserRequest));
 	}
 
 	@Operation(summary = "내 정보 가져오기")
-	@GetMapping("/users/me")
+	@GetMapping("/me")
 	public Api<UserInfoResponse> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
 		return Api.ok(userService.getMyInfo(userDetails));
 	}
 
 	@Operation(summary = "유저 정보 조회")
-	@GetMapping("/users/{id}")
+	@GetMapping("/{id}")
 	public Api<UserInfoResponse> getUserInfo(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
 		@PathVariable UUID id
@@ -55,7 +55,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "유저 정보 수정")
-	@PutMapping("/users/info")
+	@PutMapping("/info")
 	public Api<UserInfoResponse> updateUserInfo(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
 		@Valid @RequestBody UpdateUserInfoRequest updateUserInfoRequest
@@ -64,7 +64,7 @@ public class UserController {
 	}
 
 	@Operation(summary = "비밀번호 변경")
-	@PutMapping("/users/password")
+	@PutMapping("/password")
 	public Api<UserInfoResponse> updateUserPassword(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
 		@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest

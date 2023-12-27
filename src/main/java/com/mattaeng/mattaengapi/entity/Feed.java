@@ -44,8 +44,8 @@ public class Feed extends BaseTimeEntity {
 	@OneToMany(mappedBy = "feed")
 	private List<Comment> comments = new ArrayList<>();
 
-	private Feed(Long id, String title, String content, Long heart, FeedStatus feedStatus, List<Comment> comments) {
-		this.id = id;
+	@Builder
+	private Feed(String title, String content, Long heart, FeedStatus feedStatus, List<Comment> comments) {
 		this.title = title;
 		this.content = content;
 		this.heart = heart;
@@ -55,9 +55,9 @@ public class Feed extends BaseTimeEntity {
 
 	public static Feed from(CreateFeedRequest createFeedRequest) {
 		return Feed.builder()
-			.id(0L)
 			.title(createFeedRequest.title())
 			.content(createFeedRequest.content())
+			.heart(0L)
 			.feedStatus(FeedStatus.ACTIVATIE)
 			.build();
 	}
@@ -72,10 +72,6 @@ public class Feed extends BaseTimeEntity {
 		if (deleteFeedRequest.feedStatus() != null) {
 			this.feedStatus = FeedStatus.INACTIVATE;
 		}
-	}
-
-	public Feed() {
-
 	}
 
 	public void setId(Long id) {

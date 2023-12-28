@@ -9,44 +9,28 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.mattaeng.mattaengapi.security.jwt.JwtAuthenticationFilter;
-import com.mattaeng.mattaengapi.security.jwt.JwtExceptionFilter;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfiguration {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable);
 
-	private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	private final JwtExceptionFilter jwtExceptionFilter;
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+                        .requestMatchers("/**").permitAll() // TODO: 개발용
+                        .anyRequest().authenticated()
+                );
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http
-			.cors(Customizer.withDefaults())
-			.csrf(AbstractHttpConfigurer::disable)
-			.sessionManagement(session -> session
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			)
-			.httpBasic(AbstractHttpConfigurer::disable)
-			.formLogin(AbstractHttpConfigurer::disable);
-
-		http
-			.authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.POST, "/api/v1/login", "/api/v1/users").permitAll()
-				.requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs").permitAll()
-				.requestMatchers("/**").permitAll() // TODO: 개발용
-				.anyRequest().authenticated()
-			);
-
-		http
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
-
-		return http.build();
-	}
+        return http.build();
+    }
 }

@@ -1,35 +1,31 @@
-package com.mattaeng.mattaengapi.domain;
+package com.mattaeng.mattaengapi.entity;
 
-import com.mattaeng.mattaengapi.dto.user.CreateUserResponse;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import java.util.UUID;
-import lombok.Builder;
-import lombok.Getter;
-import org.hibernate.annotations.GenericGenerator;
+import com.mattaeng.mattaengapi.common.auditing.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @NonNull
     private String userId;
 
+    @NonNull
     private String password;
 
+    @NonNull
     private String username;
 
+    @NonNull
     private String phoneNumber;
 
-    public User(UUID id, String userId, String password, String username, String phoneNumber) {
+    public User(Long id, String userId, String password, String username, String phoneNumber) {
         this.id = id;
         this.userId = userId;
         this.password = password;
@@ -40,7 +36,7 @@ public class User {
     public User() {
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,14 +54,5 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public CreateUserResponse toCreateUserResponse() {
-        return CreateUserResponse.builder()
-            .id(this.id)
-            .userId(this.userId)
-            .username(this.username)
-            .phoneNumber(this.phoneNumber)
-            .build();
     }
 }

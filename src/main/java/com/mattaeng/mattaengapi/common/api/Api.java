@@ -1,36 +1,47 @@
 package com.mattaeng.mattaengapi.common.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.mattaeng.mattaengapi.common.error.ErrorCodeIfs;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Api<T> {
-    private Result result;
-    private T body;
 
-    public static <T> Api<T> ok(T data) {
-        var api = new Api<T>();
-        api.result = Result.ok();
-        api.body = data;
-        return api;
-    }
-    public static Api<Object> error(Result result){
-        var api = new Api<Object>();
-        api.result = result;
-        return api;
-    }
-    public static Api<Object> error(ErrorCodeIfs errorCodeIfs){
-        var api = new Api<Object>();
-        api.result = Result.error(errorCodeIfs);
-        return api;
-    }
-    public static Api<Object> error(ErrorCodeIfs errorCodeIfs, String description){
-        var api = new Api<Object>();
-        api.result = Result.error(errorCodeIfs, description);
-        return api;
-    }
+	@JsonUnwrapped
+	private T body;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private Error error;
+
+	private Api(T body) {
+		this.body = body;
+	}
+
+	private Api(Error error) {
+		this.error = error;
+	}
+
+	public static <T> Api<T> ok(T data) {
+		return new Api<>(data);
+	}
+
+	public static Api<Object> error(ErrorCodeIfs errorCode) {
+		Error error = new Error(errorCode.getErrorCode(), errorCode.getDescription());
+		return new Api<>(error);
+	}
+
+	public static Api<Object> error(ErrorCodeIfs errorCode, String message) {
+		Error error = new Error(errorCode.getErrorCode(), message);
+		return new Api<>(error);
+	}
+
+	private record Error(
+		String errorCode,
+		String description
+	) {
+	}
 }

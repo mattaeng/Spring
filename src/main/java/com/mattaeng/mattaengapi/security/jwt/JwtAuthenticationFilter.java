@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		final String SWAGGER_ENDPOINT = "/swagger-ui";
 		final String API_DOCS_ENDPOINT = "/v3/api-docs";
-		final String LOGIN_ENDPOINT = "/api/v1/login";
+		final String LOGIN_ENDPOINT = "/api/v1/auth/login";
 		final String SIGNUP_ENDPOINT = "/api/v1/users";
 
 		return (uri.startsWith(SWAGGER_ENDPOINT) && method.equals(GET_METHOD)) ||

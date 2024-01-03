@@ -68,7 +68,7 @@ public class UserController {
 	@PutMapping("/password")
 	public Api<UserInfoResponse> updateUserPassword(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
-		@RequestBody UpdateUserPasswordRequest updateUserPasswordRequest
+		@Valid @RequestBody UpdateUserPasswordRequest updateUserPasswordRequest
 	) {
 		return Api.ok(userService.updateUserPassword(userDetails, updateUserPasswordRequest));
 	}

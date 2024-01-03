@@ -5,7 +5,6 @@ import com.mattaeng.mattaengapi.common.annotations.Password.Password;
 import jakarta.validation.constraints.NotBlank;
 
 public record UpdateUserPasswordRequest(
-	@Password
 	String oldPassword,
 
 	@Password

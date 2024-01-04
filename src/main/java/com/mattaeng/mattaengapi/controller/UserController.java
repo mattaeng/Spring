@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mattaeng.mattaengapi.common.api.Api;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
-import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdatePhoneNumberRequest;
 import com.mattaeng.mattaengapi.dto.user.UpdateUserPasswordRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdateUsernameRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 import com.mattaeng.mattaengapi.service.UserService;
@@ -55,13 +56,22 @@ public class UserController {
 		return Api.ok(userService.getUserInfo(userDetails, id));
 	}
 
-	@Operation(summary = "유저 정보 수정")
-	@PutMapping("/info")
-	public Api<UserInfoResponse> updateUserInfo(
+	@Operation(summary = "유저 이름 변경")
+	@PutMapping("/username")
+	public Api<UserInfoResponse> updateUsername(
 		@AuthenticationPrincipal CustomUserDetails userDetails,
-		@Valid @RequestBody UpdateUserInfoRequest updateUserInfoRequest
+		@Valid @RequestBody UpdateUsernameRequest updateUsernameRequest
 	) {
-		return Api.ok(userService.updateUserInfo(userDetails, updateUserInfoRequest));
+		return Api.ok(userService.updateUsername(userDetails, updateUsernameRequest));
+	}
+
+	@Operation(summary = "유저 휴대폰 번호 변경")
+	@PutMapping("/phone-number")
+	public Api<UserInfoResponse> updateUserPhoneNumber(
+		@AuthenticationPrincipal CustomUserDetails userDetails,
+		@Valid @RequestBody UpdatePhoneNumberRequest updatePhoneNumberRequest
+	) {
+		return Api.ok(userService.updatePhoneNumber(userDetails, updatePhoneNumberRequest));
 	}
 
 	@Operation(summary = "비밀번호 변경")

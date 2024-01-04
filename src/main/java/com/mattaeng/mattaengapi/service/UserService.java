@@ -2,22 +2,22 @@ package com.mattaeng.mattaengapi.service;
 
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
 import com.mattaeng.mattaengapi.common.error.UserErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
 import com.mattaeng.mattaengapi.domain.User;
 import com.mattaeng.mattaengapi.dto.user.CreateUserRequest;
-import com.mattaeng.mattaengapi.dto.user.UpdateUserInfoRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdatePhoneNumberRequest;
 import com.mattaeng.mattaengapi.dto.user.UpdateUserPasswordRequest;
+import com.mattaeng.mattaengapi.dto.user.UpdateUsernameRequest;
 import com.mattaeng.mattaengapi.dto.user.UserInfoResponse;
 import com.mattaeng.mattaengapi.repository.UserRepository;
 import com.mattaeng.mattaengapi.security.BCryptConfig;
 import com.mattaeng.mattaengapi.security.CustomUserDetails;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,22 +47,34 @@ public class UserService {
 			.orElseThrow(() -> new ApiException(UserErrorCode.NOT_EXISTS_ID));
 	}
 
-	public UserInfoResponse updateUserInfo(CustomUserDetails userDetails, UpdateUserInfoRequest updateUserInfoRequest) {
+	public UserInfoResponse updateUsername(
+		CustomUserDetails userDetails,
+		UpdateUsernameRequest updateUsernameRequest
+	) {
 		User user = userDetails.user();
-		BeanUtils.copyProperties(updateUserInfoRequest, user);
+		user.setUsername(updateUsernameRequest.username());
+		return UserInfoResponse.from(userRepository.save(user));
+	}
+
+	public UserInfoResponse updatePhoneNumber(
+		CustomUserDetails userDetails,
+		UpdatePhoneNumberRequest updatePhoneNumberRequest
+	) {
+		User user = userDetails.user();
+		user.setPhoneNumber(updatePhoneNumberRequest.phoneNumber());
 		return UserInfoResponse.from(userRepository.save(user));
 	}
 
 	public UserInfoResponse updateUserPassword(
 		CustomUserDetails userDetails,
-		UpdateUserPasswordRequest updateUserPasswordRequest
+		UpdateUserPasswordRequest updatePasswordRequest
 	) {
 		if (!bCryptConfig.passwordEncoder()
-			.matches(updateUserPasswordRequest.oldPassword(), userDetails.getPassword())) {
+			.matches(updatePasswordRequest.oldPassword(), userDetails.getPassword())) {
 			throw new ApiException(AuthErrorCode.INVALID_PASSWORD);
 		}
 		User user = userDetails.user();
-		String updatedPassword = bCryptConfig.passwordEncoder().encode(updateUserPasswordRequest.newPassword());
+		String updatedPassword = bCryptConfig.passwordEncoder().encode(updatePasswordRequest.newPassword());
 		user.setPassword(updatedPassword);
 		return UserInfoResponse.from(userRepository.save(user));
 	}

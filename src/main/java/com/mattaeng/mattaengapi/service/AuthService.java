@@ -1,6 +1,7 @@
 package com.mattaeng.mattaengapi.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mattaeng.mattaengapi.common.error.AuthErrorCode;
 import com.mattaeng.mattaengapi.common.exception.ApiException;
@@ -20,6 +21,7 @@ public class AuthService {
 	private final JwtProvider jwtProvider;
 	private final BCryptConfig bCryptConfig;
 
+	@Transactional(readOnly = true)
 	public LoginResponse login(LoginRequest loginRequest) {
 		return userRepository.getByUserId(loginRequest.userId())
 			.map(user -> {

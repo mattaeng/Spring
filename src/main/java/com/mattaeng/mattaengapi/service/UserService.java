@@ -22,13 +22,13 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class UserService {
 
 	private final UserRepository userRepository;
 	private final BCryptConfig bCryptConfig;
 
 	// TODO: (추가) 휴대폰 인증, 약관 동의. 다른 사람의 email 혹은 phoneNumber를 선점하면 어떻게 하지??
+	@Transactional
 	public UserInfoResponse createUser(CreateUserRequest createUserRequest) {
 		if (userRepository.existsByUserIdOrPhoneNumber(createUserRequest.userId(), createUserRequest.phoneNumber())) {
 			throw new ApiException(UserErrorCode.ALREADY_EXISTS_USER);
@@ -37,16 +37,19 @@ public class UserService {
 		return UserInfoResponse.from(user);
 	}
 
+	@Transactional(readOnly = true)
 	public UserInfoResponse getMyInfo(CustomUserDetails userDetails) {
 		return UserInfoResponse.from(userDetails);
 	}
 
+	@Transactional(readOnly = true)
 	public UserInfoResponse getUserInfo(CustomUserDetails userDetails, UUID id) {
 		return userRepository.getUserById(id)
 			.map(UserInfoResponse::from)
 			.orElseThrow(() -> new ApiException(UserErrorCode.NOT_EXISTS_ID));
 	}
 
+	@Transactional
 	public UserInfoResponse updateUsername(
 		CustomUserDetails userDetails,
 		UpdateUsernameRequest updateUsernameRequest
@@ -56,6 +59,7 @@ public class UserService {
 		return UserInfoResponse.from(userRepository.save(user));
 	}
 
+	@Transactional
 	public UserInfoResponse updatePhoneNumber(
 		CustomUserDetails userDetails,
 		UpdatePhoneNumberRequest updatePhoneNumberRequest
@@ -65,6 +69,7 @@ public class UserService {
 		return UserInfoResponse.from(userRepository.save(user));
 	}
 
+	@Transactional
 	public UserInfoResponse updateUserPassword(
 		CustomUserDetails userDetails,
 		UpdateUserPasswordRequest updatePasswordRequest
@@ -80,6 +85,7 @@ public class UserService {
 	}
 
 	// TODO: (추가) 추후 유저에 관련된 데이터도 inactive. 유예 기간을 줘야겠는데
+	@Transactional
 	public void deleteUser(CustomUserDetails userDetails) {
 		User user = userDetails.user();
 		user.setEnabled(false);
